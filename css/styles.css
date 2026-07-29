@@ -123,6 +123,45 @@ section h2 {
   border-radius: 6px;
 }
 
+.campo-formulario select {
+  appearance: none;
+  padding-right: 40px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #334e68 50%),
+    linear-gradient(135deg, #334e68 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+  background-repeat: no-repeat;
+  background-size: 6px 6px;
+  cursor: pointer;
+}
+
+.campo-formulario select:invalid {
+  color: #627d98;
+}
+
+.campo-formulario option {
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+.campo-formulario input[type="date"] {
+  min-height: 43px;
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.campo-formulario input[type="date"]::-webkit-calendar-picker-indicator {
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.campo-formulario input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background-color: #e0ebff;
+}
+
 .campo-formulario input:focus,
 .campo-formulario select:focus {
   outline: 3px solid #bfdbfe;
