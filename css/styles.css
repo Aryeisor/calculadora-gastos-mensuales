@@ -1,1 +1,215 @@
 /* Estilos principales de la aplicacion */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f7fb;
+  color: #1f2937;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.encabezado {
+  background-color: #102a43;
+  color: #ffffff;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.encabezado h1 {
+  margin-bottom: 8px;
+  font-size: 32px;
+}
+
+.encabezado p {
+  margin-bottom: 0;
+  color: #d9e2ec;
+}
+
+.contenedor-principal {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+section {
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+}
+
+section h2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  color: #102a43;
+}
+
+.tarjetas-resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.tarjeta-resumen {
+  padding: 18px;
+  border: 1px solid #d9e2ec;
+  border-left: 5px solid #3b82f6;
+  border-radius: 8px;
+  background-color: #f8fafc;
+}
+
+.tarjeta-resumen:nth-child(1) {
+  border-left-color: #16a34a;
+}
+
+.tarjeta-resumen:nth-child(2) {
+  border-left-color: #dc2626;
+}
+
+.tarjeta-resumen:nth-child(3) {
+  border-left-color: #2563eb;
+}
+
+.tarjeta-resumen h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #52606d;
+}
+
+.tarjeta-resumen p {
+  margin-bottom: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#formulario-movimiento,
+.controles-filtros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo-formulario label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334e68;
+}
+
+.campo-formulario input,
+.campo-formulario select {
+  width: 100%;
+  padding: 11px 12px;
+  font-size: 15px;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 1px solid #bcccdc;
+  border-radius: 6px;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+  outline: 3px solid #bfdbfe;
+  border-color: #2563eb;
+}
+
+#boton-guardar {
+  align-self: end;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2563eb;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#boton-guardar:hover {
+  background-color: #1d4ed8;
+}
+
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+th,
+td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #d9e2ec;
+}
+
+th {
+  color: #ffffff;
+  background-color: #334e68;
+  font-size: 14px;
+}
+
+td {
+  font-size: 15px;
+}
+
+tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+td[colspan="6"] {
+  text-align: center;
+  color: #627d98;
+}
+
+@media (max-width: 800px) {
+  .tarjetas-resumen,
+  #formulario-movimiento,
+  .controles-filtros {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .encabezado {
+    padding: 24px 16px;
+  }
+
+  .encabezado h1 {
+    font-size: 26px;
+  }
+
+  section {
+    padding: 16px;
+  }
+
+  .tarjetas-resumen,
+  #formulario-movimiento,
+  .controles-filtros {
+    grid-template-columns: 1fr;
+  }
+
+  #boton-guardar {
+    width: 100%;
+  }
+}
