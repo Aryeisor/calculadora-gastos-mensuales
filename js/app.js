@@ -6,6 +6,7 @@ const inputValor = document.querySelector("#valor");
 const selectTipo = document.querySelector("#tipo");
 const selectCategoria = document.querySelector("#categoria");
 const inputFecha = document.querySelector("#fecha");
+const tablaMovimientos = document.querySelector("#tabla-movimientos");
 
 let movimientos = [];
 
@@ -34,8 +35,102 @@ formularioMovimiento.addEventListener("submit", function(evento) {
 
   movimientos.push(movimiento);
 
-  console.log("Movimiento registrado:", movimiento);
-  console.log("Lista de movimientos:", movimientos);
+  mostrarMovimientos();
 
   formularioMovimiento.reset();
 });
+
+function mostrarMovimientos() {
+  tablaMovimientos.innerHTML = "";
+
+  if (movimientos.length === 0) {
+    const filaVacia = document.createElement("tr");
+    const celdaVacia = document.createElement("td");
+
+    celdaVacia.textContent = "No hay movimientos registrados.";
+    celdaVacia.colSpan = 6;
+
+    filaVacia.appendChild(celdaVacia);
+    tablaMovimientos.appendChild(filaVacia);
+
+    return;
+  }
+
+  movimientos.forEach(function(movimiento) {
+    const fila = document.createElement("tr");
+
+    fila.appendChild(crearCelda(movimiento.descripcion));
+    fila.appendChild(crearCelda(formatearMoneda(movimiento.valor)));
+    fila.appendChild(crearCeldaConEtiqueta(movimiento.tipo));
+    fila.appendChild(crearCelda(formatearTexto(movimiento.categoria)));
+    fila.appendChild(crearCelda(formatearFecha(movimiento.fecha)));
+    fila.appendChild(crearCeldaAcciones(movimiento.id));
+
+    tablaMovimientos.appendChild(fila);
+  });
+}
+
+function crearCelda(texto) {
+  const celda = document.createElement("td");
+  celda.textContent = texto;
+  return celda;
+}
+
+function crearCeldaConEtiqueta(tipo) {
+  const celda = document.createElement("td");
+  const etiqueta = document.createElement("span");
+
+  etiqueta.textContent = formatearTexto(tipo);
+  etiqueta.classList.add("etiqueta", "etiqueta-" + tipo);
+
+  celda.appendChild(etiqueta);
+
+  return celda;
+}
+
+function crearCeldaAcciones(id) {
+  const celda = document.createElement("td");
+  const contenedorBotones = document.createElement("div");
+  const botonEditar = document.createElement("button");
+  const botonEliminar = document.createElement("button");
+
+  contenedorBotones.classList.add("botones-acciones");
+
+  botonEditar.textContent = "Editar";
+  botonEditar.type = "button";
+  botonEditar.classList.add("boton-accion", "boton-editar");
+  botonEditar.dataset.id = id;
+
+  botonEliminar.textContent = "Eliminar";
+  botonEliminar.type = "button";
+  botonEliminar.classList.add("boton-accion", "boton-eliminar");
+  botonEliminar.dataset.id = id;
+
+  contenedorBotones.appendChild(botonEditar);
+  contenedorBotones.appendChild(botonEliminar);
+  celda.appendChild(contenedorBotones);
+
+  return celda;
+}
+
+function formatearMoneda(valor) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0
+  }).format(valor);
+}
+
+function formatearFecha(fecha) {
+  const fechaMovimiento = new Date(fecha + "T00:00:00");
+
+  return fechaMovimiento.toLocaleDateString("es-CO", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+function formatearTexto(texto) {
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}

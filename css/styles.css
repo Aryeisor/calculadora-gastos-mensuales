@@ -221,6 +221,56 @@ td[colspan="6"] {
   color: #627d98;
 }
 
+.etiqueta {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.etiqueta-ingreso {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.etiqueta-gasto {
+  color: #991b1b;
+  background-color: #fee2e2;
+}
+
+.botones-acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.boton-accion {
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.boton-editar {
+  color: #1e3a8a;
+  background-color: #dbeafe;
+}
+
+.boton-editar:hover {
+  background-color: #bfdbfe;
+}
+
+.boton-eliminar {
+  color: #991b1b;
+  background-color: #fee2e2;
+}
+
+.boton-eliminar:hover {
+  background-color: #fecaca;
+}
+
 @media (max-width: 800px) {
   .tarjetas-resumen,
   #formulario-movimiento,
