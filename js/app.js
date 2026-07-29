@@ -7,6 +7,9 @@ const selectTipo = document.querySelector("#tipo");
 const selectCategoria = document.querySelector("#categoria");
 const inputFecha = document.querySelector("#fecha");
 const tablaMovimientos = document.querySelector("#tabla-movimientos");
+const totalIngresos = document.querySelector("#total-ingresos");
+const totalGastos = document.querySelector("#total-gastos");
+const saldoDisponible = document.querySelector("#saldo-disponible");
 
 let movimientos = [];
 
@@ -36,6 +39,7 @@ formularioMovimiento.addEventListener("submit", function(evento) {
   movimientos.push(movimiento);
 
   mostrarMovimientos();
+  actualizarResumen();
 
   formularioMovimiento.reset();
 });
@@ -133,4 +137,23 @@ function formatearFecha(fecha) {
 
 function formatearTexto(texto) {
   return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function actualizarResumen() {
+  let ingresos = 0;
+  let gastos = 0;
+
+  movimientos.forEach(function(movimiento) {
+    if (movimiento.tipo === "ingreso") {
+      ingresos = ingresos + movimiento.valor;
+    } else if (movimiento.tipo === "gasto") {
+      gastos = gastos + movimiento.valor;
+    }
+  });
+
+  const saldo = ingresos - gastos;
+
+  totalIngresos.textContent = formatearMoneda(ingresos);
+  totalGastos.textContent = formatearMoneda(gastos);
+  saldoDisponible.textContent = formatearMoneda(saldo);
 }
