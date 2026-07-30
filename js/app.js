@@ -11,6 +11,9 @@ const totalIngresos = document.querySelector("#total-ingresos");
 const totalGastos = document.querySelector("#total-gastos");
 const saldoDisponible = document.querySelector("#saldo-disponible");
 const botonGuardar = document.querySelector("#boton-guardar");
+const inputBuscarDescripcion = document.querySelector("#buscar-descripcion");
+const selectFiltroTipo = document.querySelector("#filtro-tipo");
+const selectFiltroCategoria = document.querySelector("#filtro-categoria");
 
 let movimientos = [];
 let idMovimientoEditando = null;
@@ -62,8 +65,21 @@ tablaMovimientos.addEventListener("click", function(evento) {
   }
 });
 
+inputBuscarDescripcion.addEventListener("input", function() {
+  mostrarMovimientos();
+});
+
+selectFiltroTipo.addEventListener("change", function() {
+  mostrarMovimientos();
+});
+
+selectFiltroCategoria.addEventListener("change", function() {
+  mostrarMovimientos();
+});
+
 function mostrarMovimientos() {
   tablaMovimientos.innerHTML = "";
+  const movimientosFiltrados = obtenerMovimientosFiltrados();
 
   if (movimientos.length === 0) {
     const filaVacia = document.createElement("tr");
@@ -78,7 +94,20 @@ function mostrarMovimientos() {
     return;
   }
 
-  movimientos.forEach(function(movimiento) {
+  if (movimientosFiltrados.length === 0) {
+    const filaSinResultados = document.createElement("tr");
+    const celdaSinResultados = document.createElement("td");
+
+    celdaSinResultados.textContent = "No se encontraron movimientos con esos filtros.";
+    celdaSinResultados.colSpan = 6;
+
+    filaSinResultados.appendChild(celdaSinResultados);
+    tablaMovimientos.appendChild(filaSinResultados);
+
+    return;
+  }
+
+  movimientosFiltrados.forEach(function(movimiento) {
     const fila = document.createElement("tr");
 
     fila.appendChild(crearCelda(movimiento.descripcion));
@@ -89,6 +118,21 @@ function mostrarMovimientos() {
     fila.appendChild(crearCeldaAcciones(movimiento.id));
 
     tablaMovimientos.appendChild(fila);
+  });
+}
+
+function obtenerMovimientosFiltrados() {
+  const textoBusqueda = inputBuscarDescripcion.value.trim().toLowerCase();
+  const tipoSeleccionado = selectFiltroTipo.value;
+  const categoriaSeleccionada = selectFiltroCategoria.value;
+
+  return movimientos.filter(function(movimiento) {
+    const descripcionMovimiento = movimiento.descripcion.toLowerCase();
+    const coincideDescripcion = descripcionMovimiento.includes(textoBusqueda);
+    const coincideTipo = tipoSeleccionado === "" || movimiento.tipo === tipoSeleccionado;
+    const coincideCategoria = categoriaSeleccionada === "" || movimiento.categoria === categoriaSeleccionada;
+
+    return coincideDescripcion && coincideTipo && coincideCategoria;
   });
 }
 
