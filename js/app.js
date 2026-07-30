@@ -14,9 +14,14 @@ const botonGuardar = document.querySelector("#boton-guardar");
 const inputBuscarDescripcion = document.querySelector("#buscar-descripcion");
 const selectFiltroTipo = document.querySelector("#filtro-tipo");
 const selectFiltroCategoria = document.querySelector("#filtro-categoria");
+const modalEliminar = document.querySelector("#modal-eliminar");
+const mensajeModalEliminar = document.querySelector("#mensaje-modal-eliminar");
+const botonCancelarEliminacion = document.querySelector("#boton-cancelar-eliminacion");
+const botonConfirmarEliminacion = document.querySelector("#boton-confirmar-eliminacion");
 
 let movimientos = [];
 let idMovimientoEditando = null;
+let idMovimientoPendienteEliminar = null;
 
 cargarMovimientos();
 mostrarMovimientos();
@@ -61,7 +66,7 @@ formularioMovimiento.addEventListener("submit", function(evento) {
 tablaMovimientos.addEventListener("click", function(evento) {
   if (evento.target.classList.contains("boton-eliminar")) {
     const idMovimiento = Number(evento.target.dataset.id);
-    eliminarMovimientoSeleccionado(idMovimiento);
+    abrirModalEliminar(idMovimiento);
   }
 
   if (evento.target.classList.contains("boton-editar")) {
@@ -80,6 +85,20 @@ selectFiltroTipo.addEventListener("change", function() {
 
 selectFiltroCategoria.addEventListener("change", function() {
   mostrarMovimientos();
+});
+
+botonCancelarEliminacion.addEventListener("click", function() {
+  cerrarModalEliminar();
+});
+
+botonConfirmarEliminacion.addEventListener("click", function() {
+  eliminarMovimientoSeleccionado();
+});
+
+modalEliminar.addEventListener("click", function(evento) {
+  if (evento.target === modalEliminar) {
+    cerrarModalEliminar();
+  }
 });
 
 function mostrarMovimientos() {
@@ -267,10 +286,31 @@ function limpiarFormulario() {
   botonGuardar.textContent = "Guardar movimiento";
 }
 
-function eliminarMovimientoSeleccionado(id) {
-  const confirmarEliminacion = confirm("Deseas eliminar este movimiento?");
+function abrirModalEliminar(id) {
+  const movimientoEncontrado = movimientos.find(function(movimiento) {
+    return movimiento.id === id;
+  });
 
-  if (confirmarEliminacion === false) {
+  if (movimientoEncontrado === undefined) {
+    return;
+  }
+
+  idMovimientoPendienteEliminar = id;
+  mensajeModalEliminar.textContent = "Estas seguro de eliminar el movimiento \"" + movimientoEncontrado.descripcion + "\"?";
+  modalEliminar.classList.remove("oculto");
+  modalEliminar.setAttribute("aria-hidden", "false");
+}
+
+function cerrarModalEliminar() {
+  idMovimientoPendienteEliminar = null;
+  modalEliminar.classList.add("oculto");
+  modalEliminar.setAttribute("aria-hidden", "true");
+}
+
+function eliminarMovimientoSeleccionado() {
+  const id = idMovimientoPendienteEliminar;
+
+  if (id === null) {
     return;
   }
 
@@ -285,6 +325,8 @@ function eliminarMovimientoSeleccionado(id) {
   if (idMovimientoEditando === id) {
     limpiarFormulario();
   }
+
+  cerrarModalEliminar();
 }
 
 function guardarMovimientos() {
