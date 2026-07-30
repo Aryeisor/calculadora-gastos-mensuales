@@ -30,6 +30,7 @@ let idMovimientoPendienteEliminar = null;
 cargarMovimientos();
 mostrarMovimientos();
 actualizarResumen();
+asignarFechaActual();
 
 formularioMovimiento.addEventListener("submit", function(evento) {
   evento.preventDefault();
@@ -399,6 +400,16 @@ function limpiarFormulario() {
   botonGuardar.textContent = "Guardar movimiento";
   botonCancelarEdicion.classList.add("oculto");
   limpiarErroresFormulario();
+  asignarFechaActual();
+}
+
+function asignarFechaActual() {
+  const fechaActual = new Date();
+  const anio = fechaActual.getFullYear();
+  const mes = String(fechaActual.getMonth() + 1).padStart(2, "0");
+  const dia = String(fechaActual.getDate()).padStart(2, "0");
+
+  inputFecha.value = anio + "-" + mes + "-" + dia;
 }
 
 function abrirModalEliminar(id) {
