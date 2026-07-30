@@ -44,6 +44,13 @@ formularioMovimiento.addEventListener("submit", function(evento) {
   formularioMovimiento.reset();
 });
 
+tablaMovimientos.addEventListener("click", function(evento) {
+  if (evento.target.classList.contains("boton-eliminar")) {
+    const idMovimiento = Number(evento.target.dataset.id);
+    eliminarMovimiento(idMovimiento);
+  }
+});
+
 function mostrarMovimientos() {
   tablaMovimientos.innerHTML = "";
 
@@ -156,4 +163,19 @@ function actualizarResumen() {
   totalIngresos.textContent = formatearMoneda(ingresos);
   totalGastos.textContent = formatearMoneda(gastos);
   saldoDisponible.textContent = formatearMoneda(saldo);
+}
+
+function eliminarMovimiento(id) {
+  const confirmarEliminacion = confirm("¿Deseas eliminar este movimiento?");
+
+  if (confirmarEliminacion === false) {
+    return;
+  }
+
+  movimientos = movimientos.filter(function(movimiento) {
+    return movimiento.id !== id;
+  });
+
+  mostrarMovimientos();
+  actualizarResumen();
 }
