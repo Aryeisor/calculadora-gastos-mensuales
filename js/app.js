@@ -7,6 +7,7 @@ const selectTipo = document.querySelector("#tipo");
 const selectCategoria = document.querySelector("#categoria");
 const inputFecha = document.querySelector("#fecha");
 const tablaMovimientos = document.querySelector("#tabla-movimientos");
+const contadorMovimientos = document.querySelector("#contador-movimientos");
 const mensajeFormulario = document.querySelector("#mensaje-formulario");
 const totalIngresos = document.querySelector("#total-ingresos");
 const totalGastos = document.querySelector("#total-gastos");
@@ -124,6 +125,7 @@ botonCancelarEdicion.addEventListener("click", function() {
 function mostrarMovimientos() {
   tablaMovimientos.innerHTML = "";
   const movimientosFiltrados = obtenerMovimientosFiltrados();
+  actualizarContadorMovimientos(movimientosFiltrados.length);
 
   if (movimientos.length === 0) {
     const filaVacia = document.createElement("tr");
@@ -178,6 +180,30 @@ function obtenerMovimientosFiltrados() {
 
     return coincideDescripcion && coincideTipo && coincideCategoria;
   });
+}
+
+function actualizarContadorMovimientos(cantidadVisible) {
+  const totalMovimientos = movimientos.length;
+
+  if (totalMovimientos === 0) {
+    contadorMovimientos.textContent = "0 movimientos registrados";
+    return;
+  }
+
+  if (cantidadVisible === totalMovimientos) {
+    contadorMovimientos.textContent = totalMovimientos + " " + obtenerTextoMovimiento(totalMovimientos) + " registrados";
+    return;
+  }
+
+  contadorMovimientos.textContent = "Mostrando " + cantidadVisible + " de " + totalMovimientos + " movimientos";
+}
+
+function obtenerTextoMovimiento(cantidad) {
+  if (cantidad === 1) {
+    return "movimiento";
+  }
+
+  return "movimientos";
 }
 
 function limpiarFiltros() {

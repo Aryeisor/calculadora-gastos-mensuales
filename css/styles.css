@@ -55,6 +55,25 @@ section h2 {
   color: #102a43;
 }
 
+.encabezado-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.encabezado-seccion h2 {
+  margin-bottom: 0;
+}
+
+.encabezado-seccion p {
+  margin-bottom: 0;
+  color: #52606d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .tarjetas-resumen {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -456,6 +475,11 @@ td[colspan="6"] {
 
   section {
     padding: 16px;
+  }
+
+  .encabezado-seccion {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .tarjetas-resumen,
