@@ -18,6 +18,10 @@ const selectFiltroCategoria = document.querySelector("#filtro-categoria");
 let movimientos = [];
 let idMovimientoEditando = null;
 
+cargarMovimientos();
+mostrarMovimientos();
+actualizarResumen();
+
 formularioMovimiento.addEventListener("submit", function(evento) {
   evento.preventDefault();
 
@@ -49,6 +53,7 @@ formularioMovimiento.addEventListener("submit", function(evento) {
 
   mostrarMovimientos();
   actualizarResumen();
+  guardarMovimientos();
 
   limpiarFormulario();
 });
@@ -275,9 +280,22 @@ function eliminarMovimientoSeleccionado(id) {
 
   mostrarMovimientos();
   actualizarResumen();
+  guardarMovimientos();
 
   if (idMovimientoEditando === id) {
     limpiarFormulario();
+  }
+}
+
+function guardarMovimientos() {
+  localStorage.setItem("movimientos", JSON.stringify(movimientos));
+}
+
+function cargarMovimientos() {
+  const movimientosGuardados = localStorage.getItem("movimientos");
+
+  if (movimientosGuardados !== null) {
+    movimientos = JSON.parse(movimientosGuardados);
   }
 }
 
