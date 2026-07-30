@@ -47,7 +47,9 @@ formularioMovimiento.addEventListener("submit", function(evento) {
     return;
   }
 
-  if (idMovimientoEditando === null) {
+  const estaEditando = idMovimientoEditando !== null;
+
+  if (estaEditando === false) {
     const movimiento = {
       id: Date.now(),
       descripcion: descripcion,
@@ -67,6 +69,10 @@ formularioMovimiento.addEventListener("submit", function(evento) {
   guardarMovimientos();
 
   limpiarFormulario();
+  mostrarMensajeFormulario(
+    estaEditando ? "Movimiento actualizado correctamente." : "Movimiento guardado correctamente.",
+    "exito"
+  );
 });
 
 tablaMovimientos.addEventListener("click", function(evento) {
@@ -183,12 +189,19 @@ function limpiarFiltros() {
 }
 
 function mostrarErrorFormulario(mensaje) {
+  mostrarMensajeFormulario(mensaje, "error");
+}
+
+function mostrarMensajeFormulario(mensaje, tipo) {
   mensajeFormulario.textContent = mensaje;
+  mensajeFormulario.classList.remove("mensaje-error", "mensaje-exito");
+  mensajeFormulario.classList.add("mensaje-" + tipo);
   mensajeFormulario.classList.remove("oculto");
 }
 
 function limpiarErroresFormulario() {
   mensajeFormulario.textContent = "";
+  mensajeFormulario.classList.remove("mensaje-error", "mensaje-exito");
   mensajeFormulario.classList.add("oculto");
 
   inputDescripcion.classList.remove("campo-error");
@@ -390,6 +403,7 @@ function eliminarMovimientoSeleccionado() {
   }
 
   cerrarModalEliminar();
+  mostrarMensajeFormulario("Movimiento eliminado correctamente.", "exito");
 }
 
 function guardarMovimientos() {
