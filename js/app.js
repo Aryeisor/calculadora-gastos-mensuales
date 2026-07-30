@@ -10,8 +10,10 @@ const tablaMovimientos = document.querySelector("#tabla-movimientos");
 const totalIngresos = document.querySelector("#total-ingresos");
 const totalGastos = document.querySelector("#total-gastos");
 const saldoDisponible = document.querySelector("#saldo-disponible");
+const botonGuardar = document.querySelector("#boton-guardar");
 
 let movimientos = [];
+let idMovimientoEditando = null;
 
 formularioMovimiento.addEventListener("submit", function(evento) {
   evento.preventDefault();
@@ -27,27 +29,36 @@ formularioMovimiento.addEventListener("submit", function(evento) {
     return;
   }
 
-  const movimiento = {
-    id: Date.now(),
-    descripcion: descripcion,
-    valor: valor,
-    tipo: tipo,
-    categoria: categoria,
-    fecha: fecha
-  };
+  if (idMovimientoEditando === null) {
+    const movimiento = {
+      id: Date.now(),
+      descripcion: descripcion,
+      valor: valor,
+      tipo: tipo,
+      categoria: categoria,
+      fecha: fecha
+    };
 
-  movimientos.push(movimiento);
+    movimientos.push(movimiento);
+  } else {
+    actualizarMovimiento(descripcion, valor, tipo, categoria, fecha);
+  }
 
   mostrarMovimientos();
   actualizarResumen();
 
-  formularioMovimiento.reset();
+  limpiarFormulario();
 });
 
 tablaMovimientos.addEventListener("click", function(evento) {
   if (evento.target.classList.contains("boton-eliminar")) {
     const idMovimiento = Number(evento.target.dataset.id);
-    eliminarMovimiento(idMovimiento);
+    eliminarMovimientoSeleccionado(idMovimiento);
+  }
+
+  if (evento.target.classList.contains("boton-editar")) {
+    const idMovimiento = Number(evento.target.dataset.id);
+    cargarMovimientoParaEditar(idMovimiento);
   }
 });
 
@@ -165,8 +176,50 @@ function actualizarResumen() {
   saldoDisponible.textContent = formatearMoneda(saldo);
 }
 
-function eliminarMovimiento(id) {
-  const confirmarEliminacion = confirm("¿Deseas eliminar este movimiento?");
+function cargarMovimientoParaEditar(id) {
+  const movimientoEncontrado = movimientos.find(function(movimiento) {
+    return movimiento.id === id;
+  });
+
+  if (movimientoEncontrado === undefined) {
+    return;
+  }
+
+  inputDescripcion.value = movimientoEncontrado.descripcion;
+  inputValor.value = movimientoEncontrado.valor;
+  selectTipo.value = movimientoEncontrado.tipo;
+  selectCategoria.value = movimientoEncontrado.categoria;
+  inputFecha.value = movimientoEncontrado.fecha;
+
+  idMovimientoEditando = id;
+  botonGuardar.textContent = "Actualizar movimiento";
+}
+
+function actualizarMovimiento(descripcion, valor, tipo, categoria, fecha) {
+  movimientos = movimientos.map(function(movimiento) {
+    if (movimiento.id === idMovimientoEditando) {
+      return {
+        id: movimiento.id,
+        descripcion: descripcion,
+        valor: valor,
+        tipo: tipo,
+        categoria: categoria,
+        fecha: fecha
+      };
+    }
+
+    return movimiento;
+  });
+}
+
+function limpiarFormulario() {
+  formularioMovimiento.reset();
+  idMovimientoEditando = null;
+  botonGuardar.textContent = "Guardar movimiento";
+}
+
+function eliminarMovimientoSeleccionado(id) {
+  const confirmarEliminacion = confirm("Deseas eliminar este movimiento?");
 
   if (confirmarEliminacion === false) {
     return;
@@ -178,4 +231,9 @@ function eliminarMovimiento(id) {
 
   mostrarMovimientos();
   actualizarResumen();
+
+  if (idMovimientoEditando === id) {
+    limpiarFormulario();
+  }
 }
+
