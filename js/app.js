@@ -14,6 +14,7 @@ const botonGuardar = document.querySelector("#boton-guardar");
 const inputBuscarDescripcion = document.querySelector("#buscar-descripcion");
 const selectFiltroTipo = document.querySelector("#filtro-tipo");
 const selectFiltroCategoria = document.querySelector("#filtro-categoria");
+const botonLimpiarFiltros = document.querySelector("#boton-limpiar-filtros");
 const modalEliminar = document.querySelector("#modal-eliminar");
 const mensajeModalEliminar = document.querySelector("#mensaje-modal-eliminar");
 const botonCancelarEliminacion = document.querySelector("#boton-cancelar-eliminacion");
@@ -86,6 +87,10 @@ selectFiltroTipo.addEventListener("change", function() {
 
 selectFiltroCategoria.addEventListener("change", function() {
   mostrarMovimientos();
+});
+
+botonLimpiarFiltros.addEventListener("click", function() {
+  limpiarFiltros();
 });
 
 botonCancelarEliminacion.addEventListener("click", function() {
@@ -163,6 +168,14 @@ function obtenerMovimientosFiltrados() {
 
     return coincideDescripcion && coincideTipo && coincideCategoria;
   });
+}
+
+function limpiarFiltros() {
+  inputBuscarDescripcion.value = "";
+  selectFiltroTipo.value = "";
+  selectFiltroCategoria.value = "";
+
+  mostrarMovimientos();
 }
 
 function crearCelda(texto) {
