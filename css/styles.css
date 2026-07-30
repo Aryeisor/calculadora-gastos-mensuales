@@ -177,6 +177,30 @@ section h2 {
   display: none;
 }
 
+.mensaje-formulario {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  padding: 12px 14px;
+  color: #991b1b;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
+.campo-formulario input.campo-error,
+.campo-formulario select.campo-error {
+  border-color: #dc2626;
+  background-color: #fff7f7;
+}
+
+.campo-formulario input.campo-error:focus,
+.campo-formulario select.campo-error:focus {
+  outline: 3px solid #fecaca;
+  border-color: #dc2626;
+}
+
 .acciones-formulario {
   align-self: end;
   display: flex;

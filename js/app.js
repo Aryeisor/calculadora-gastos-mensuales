@@ -7,6 +7,7 @@ const selectTipo = document.querySelector("#tipo");
 const selectCategoria = document.querySelector("#categoria");
 const inputFecha = document.querySelector("#fecha");
 const tablaMovimientos = document.querySelector("#tabla-movimientos");
+const mensajeFormulario = document.querySelector("#mensaje-formulario");
 const totalIngresos = document.querySelector("#total-ingresos");
 const totalGastos = document.querySelector("#total-gastos");
 const saldoDisponible = document.querySelector("#saldo-disponible");
@@ -38,8 +39,11 @@ formularioMovimiento.addEventListener("submit", function(evento) {
   const categoria = selectCategoria.value;
   const fecha = inputFecha.value;
 
+  limpiarErroresFormulario();
+
   if (descripcion === "" || valor <= 0 || tipo === "" || categoria === "" || fecha === "") {
-    alert("Por favor completa todos los campos correctamente.");
+    mostrarErrorFormulario("Por favor completa todos los campos correctamente.");
+    marcarCamposInvalidos(descripcion, valor, tipo, categoria, fecha);
     return;
   }
 
@@ -178,6 +182,44 @@ function limpiarFiltros() {
   mostrarMovimientos();
 }
 
+function mostrarErrorFormulario(mensaje) {
+  mensajeFormulario.textContent = mensaje;
+  mensajeFormulario.classList.remove("oculto");
+}
+
+function limpiarErroresFormulario() {
+  mensajeFormulario.textContent = "";
+  mensajeFormulario.classList.add("oculto");
+
+  inputDescripcion.classList.remove("campo-error");
+  inputValor.classList.remove("campo-error");
+  selectTipo.classList.remove("campo-error");
+  selectCategoria.classList.remove("campo-error");
+  inputFecha.classList.remove("campo-error");
+}
+
+function marcarCamposInvalidos(descripcion, valor, tipo, categoria, fecha) {
+  if (descripcion === "") {
+    inputDescripcion.classList.add("campo-error");
+  }
+
+  if (valor <= 0) {
+    inputValor.classList.add("campo-error");
+  }
+
+  if (tipo === "") {
+    selectTipo.classList.add("campo-error");
+  }
+
+  if (categoria === "") {
+    selectCategoria.classList.add("campo-error");
+  }
+
+  if (fecha === "") {
+    inputFecha.classList.add("campo-error");
+  }
+}
+
 function crearCelda(texto) {
   const celda = document.createElement("td");
   celda.textContent = texto;
@@ -304,6 +346,7 @@ function limpiarFormulario() {
   idMovimientoEditando = null;
   botonGuardar.textContent = "Guardar movimiento";
   botonCancelarEdicion.classList.add("oculto");
+  limpiarErroresFormulario();
 }
 
 function abrirModalEliminar(id) {
