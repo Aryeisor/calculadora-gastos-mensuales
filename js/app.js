@@ -18,6 +18,7 @@ const modalEliminar = document.querySelector("#modal-eliminar");
 const mensajeModalEliminar = document.querySelector("#mensaje-modal-eliminar");
 const botonCancelarEliminacion = document.querySelector("#boton-cancelar-eliminacion");
 const botonConfirmarEliminacion = document.querySelector("#boton-confirmar-eliminacion");
+const botonCancelarEdicion = document.querySelector("#boton-cancelar-edicion");
 
 let movimientos = [];
 let idMovimientoEditando = null;
@@ -99,6 +100,10 @@ modalEliminar.addEventListener("click", function(evento) {
   if (evento.target === modalEliminar) {
     cerrarModalEliminar();
   }
+});
+
+botonCancelarEdicion.addEventListener("click", function() {
+  limpiarFormulario();
 });
 
 function mostrarMovimientos() {
@@ -261,6 +266,7 @@ function cargarMovimientoParaEditar(id) {
 
   idMovimientoEditando = id;
   botonGuardar.textContent = "Actualizar movimiento";
+  botonCancelarEdicion.classList.remove("oculto");
 }
 
 function actualizarMovimiento(descripcion, valor, tipo, categoria, fecha) {
@@ -284,6 +290,7 @@ function limpiarFormulario() {
   formularioMovimiento.reset();
   idMovimientoEditando = null;
   botonGuardar.textContent = "Guardar movimiento";
+  botonCancelarEdicion.classList.add("oculto");
 }
 
 function abrirModalEliminar(id) {
