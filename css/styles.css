@@ -112,6 +112,18 @@ section h2 {
   font-weight: 700;
 }
 
+.saldo-positivo {
+  color: #166534;
+}
+
+.saldo-neutral {
+  color: #334e68;
+}
+
+.saldo-negativo {
+  color: #991b1b;
+}
+
 #formulario-movimiento,
 .controles-filtros {
   display: grid;

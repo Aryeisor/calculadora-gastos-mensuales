@@ -341,6 +341,19 @@ function actualizarResumen() {
   totalIngresos.textContent = formatearMoneda(ingresos);
   totalGastos.textContent = formatearMoneda(gastos);
   saldoDisponible.textContent = formatearMoneda(saldo);
+  actualizarColorSaldo(saldo);
+}
+
+function actualizarColorSaldo(saldo) {
+  saldoDisponible.classList.remove("saldo-positivo", "saldo-neutral", "saldo-negativo");
+
+  if (saldo > 0) {
+    saldoDisponible.classList.add("saldo-positivo");
+  } else if (saldo < 0) {
+    saldoDisponible.classList.add("saldo-negativo");
+  } else {
+    saldoDisponible.classList.add("saldo-neutral");
+  }
 }
 
 function cargarMovimientoParaEditar(id) {
